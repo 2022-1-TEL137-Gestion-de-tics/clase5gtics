@@ -6,18 +6,19 @@
             <nav th:replace="fragments/navbar.html :: navbar( active = 'Shipper')"></nav>
             <div class="row mb-4">
                 <div class="col-md-6 offset-md-3">
-                    <h2>Nuevo Transportista</h2>
+                    <h2 th:text="${shipper.shipperId == 0 ? 'Nuevo Transportista' : 'Editar Transportista'}">Nuevo Transportista</h2>
                     <div th:if="${errorCompany != null}" th:text="${errorCompany}" class="alert alert-danger"
                          role="alert"></div>
                     <hr/>
-                    <form method="post" th:action="@{'/shipper/save'}">
+                    <form method="post" th:action="@{'/shipper/save'}" th:object="${shipper}">
+                        <input type="hidden" th:field="*{shipperId}">
                         <div class="mb-3">
                             <label for="companyName" class="form-label">Nombre de la compañía</label>
-                            <input name="companyName" type="text" class="form-control" id="companyName">
+                            <input th:field="*{companyName}" name="companyName" type="text" class="form-control" id="companyName">
                         </div>
                         <div class="mb-3">
                             <label for="phone" class="form-label">Teléfono</label>
-                            <input name="phone" type="text" class="form-control" id="phone">
+                            <input th:field="*{phone}" name="phone" type="text" class="form-control" id="phone">
                         </div>
                         <a th:href="@{'/shipper/list'}" class="btn btn-danger">Cancelar</a>
                         <button type="submit" class="btn btn-primary">Registrar</button>

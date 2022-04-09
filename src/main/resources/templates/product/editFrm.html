@@ -6,13 +6,16 @@
             <nav th:replace="fragments/navbar.html :: navbar( active = 'Product')"></nav>
             <div class="row mb-4">
                 <div class="col-md-6 offset-md-3">
-                    <h2>Editar Producto</h2>
+                    <h2 th:text="|${product.id == 0 ? 'Nuevo' : 'Editar'} producto|">Editar/Nuevo producto</h2>
                     <hr/>
                     <form method="post" th:action="@{'/product/save'}" th:object="${product}">
                         <input th:field="*{id}" type="hidden"/>
                         <div class="mb-3">
                             <label class="form-label">Nombre del Producto</label>
-                            <input th:field="*{productname}" type="text" class="form-control"/>
+                            <input th:field="*{productname}" class="form-control" type="text"
+                                   th:classappend="${#fields.hasErrors('productname')?'is-invalid':''}"/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('productname')}"
+                                 th:errors="*{productname}"></div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Proveedor</label>
@@ -36,15 +39,24 @@
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Precio unitario</label>
-                            <input th:field="*{unitprice}" type="text" class="form-control"/>
+                            <input th:field="*{unitprice}" type="text" class="form-control"
+                                   th:classappend="${#fields.hasErrors('unitprice')?'is-invalid':''}"/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('unitprice')}"
+                                 th:errors="*{unitprice}"></div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Unidades en stock</label>
-                            <input th:field="*{unitsinstock}" type="number" class="form-control"/>
+                            <input th:field="*{unitsinstock}" type="number" class="form-control"
+                                   th:classappend="${#fields.hasErrors('unitsinstock')?'is-invalid':''}"/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('unitsinstock')}"
+                                 th:errors="*{unitsinstock}"></div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Unidades ordenadas</label>
-                            <input th:field="*{unitsonorder}" type="number" class="form-control"/>
+                            <input th:field="*{unitsonorder}" type="number" class="form-control"
+                                   th:classappend="${#fields.hasErrors('unitsonorder')?'is-invalid':''}"/>
+                            <div class="invalid-feedback" th:if="${#fields.hasErrors('unitsonorder')}"
+                                 th:errors="*{unitsonorder}"></div>
                         </div>
                         <div class="mb-3">
                             <label class="form-label">Nivel de reorden</label>
@@ -56,7 +68,9 @@
                             <label class="form-check-label">¿Descontinuado?</label>
                         </div>
                         <a th:href="@{'/product'}" class="btn btn-danger">Cancelar</a>
-                        <button type="submit" class="btn btn-primary">Actualizar</button>
+                        <button type="submit" class="btn btn-primary"
+                                th:text="${product.id == 0 ? 'Guardar' : 'Actualizar'}">Actualizar
+                        </button>
                     </form>
                 </div>
             </div>
